@@ -1,0 +1,675 @@
+---
+title: "IMDB_Movies_EDA"
+author: "Dillon Issa"
+date: '2023-03-19'
+output: github_document
+---
+
+# 1. Introduction
+In this project I will complete an exploratory data analysis, EDA, on the top 1,000 rated movies according to IMDB to find trends in consumer preferences that led to higher gross earnings. I will then use the findings I obtained from the analysis to provide recommendations to business strategy for movie directors to better tailor the movie to audience interests.
+<br />
+
+# 2. Setup
+## 2.1 Load Libraries
+```{r libraries}
+library("tidyverse")
+```
+<br />
+
+## 2.2 Load data
+```{r Load Data}
+movie_data <- read.csv("C:/Users/issad/Desktop/Personal Projects/IMDB Movies/Data/archive (1)/imdb_movie_data.csv")
+``` 
+<br />
+Data obtained from:
+SHREYA JAGANI. "imdb movies data", Version 3. Retrieved 03/19/2023  from https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.
+<br />
+
+# 3. Process Data
+In this section I will review and clean the data to ensure the data was imported correctly, has no missing values, and no duplicate rows.
+
+## 3.1 Review Data
+First, I will review the data to ensure it was imported properly into R. 
+<br />
+```{r Review Data}
+str(movie_data)
+head(movie_data)
+```
+<br />
+The data was imported correctly, however due to the apostrophes and negative signs some data types are labeled as characters when they shouldn't be. I will clean these issues now.
+<br />
+```{r Clean Data}
+movie_data$year <- gsub('-','',movie_data$year) %>% as.integer(movie_data$year)
+movie_data[movie_data == "'-"] <- NA
+movie_data$metascore <- as.integer(movie_data$metascore) 
+movie_data$time_minute <- gsub(' min','',movie_data$time_minute) %>% 
+  as.integer(movie_data$time_minute) 
+movie_data$gross_earning <- substring(movie_data$gross_earning, 2,5) %>% 
+  as.double(movie_data$gross_earning)
+```
+<br />
+
+The data types are now corrected, and I filled in NA values for the appropriate cells. Next I will check for the number of null values and duplicate rows.
+<br />
+
+Duplicate rows:
+<br />
+```{r Check Dupes}
+sum(duplicated(movie_data))
+```
+<br />
+
+Null values:
+<br />
+```{r Check Nulls}
+null <- numeric()
+empty <- numeric()
+for (i in 1:length(movie_data)) {
+  
+  null[i] <- sum(is.na(movie_data[i]))
+  empty[i] <- sum(movie_data[i] == "")
+}
+
+colnames(movie_data)
+null
+empty
+```
+<br />
+There are no duplicate rows, but there are some null values. I will use a few approaches to clean this based on the column I am working with. 
+
+  * Year: I will find the year the movie was made and manually input them.
+  * Certificate: I will fill in "unknown" as I would also have to manually find this information, and it's too much for the scope of this project. I also noticed some certifications were the same but listed differently, so I will correct that.
+  * Genre 2 & 3: These will be changed to "none" as most likely these movies are single genres.
+  * Metascore: I will input the median based on the main genre.
+  * Gross_earning: I will input the median based on the main genre. 
+<br />
+
+## 3.2 Filling Null Values
+<br />
+```{r Filling Nulls}
+## Year
+movie_data %>% filter(is.na(year))
+
+missing_years = c(2017,2013,2009,2011,2015,2004,2019,2014,2010,2013,
+                  2022,2021,2020,2016,2022,2015,2007,1995,2017,2015,
+                  2004,2011,2017,2018,2015,2018,2010,2010,2020,2016,
+                  2004,2021,2016)
+
+movie_data$year[is.na(movie_data$year)] <- missing_years
+
+## Certificate
+movie_data$certificate[is.na(movie_data$certificate)] <- "Unknown"
+movie_data$certificate[movie_data$certificate == "UA" ] <- "U/A"
+movie_data$certificate[movie_data$certificate == "UA 13+" ] <- "U/A"
+movie_data$certificate[movie_data$certificate == "UA" ] <- "U/A"
+movie_data$certificate[movie_data$certificate == "Unrated" ] <- "Unknown"
+movie_data$certificate[movie_data$certificate == "Not Rated" ] <- "Unknown"
+movie_data$certificate[movie_data$certificate == "M/PG" ] <- "PG"
+
+
+## Genre 2 & 3
+movie_data$genre.2[is.na(movie_data$genre.2)] <- "None"
+movie_data$genre.3[is.na(movie_data$genre.3)] <- "None"
+
+## Metascore
+median_metascores <- 
+  movie_data %>% group_by(genre.1) %>% drop_na() %>% 
+  summarize(med_metascore = median(metascore))
+
+movie_data <- left_join(movie_data, median_metascores, by = "genre.1")
+
+movie_data <- movie_data %>% 
+  mutate(metascore = ifelse(is.na(metascore), med_metascore, metascore)) %>%
+  select(-med_metascore)
+
+movie_data$metascore <- as.numeric(movie_data$metascore)
+
+## Gross Earnings (in millions)
+median_earnings <- 
+  movie_data %>% group_by(genre.1) %>% drop_na() %>% 
+  summarize(med_earnings = median(gross_earning))
+
+movie_data <- left_join(movie_data, median_earnings, by = "genre.1")
+
+movie_data <- movie_data %>% 
+  mutate(gross_earning = ifelse(is.na(gross_earning), med_earnings, gross_earning)) %>%
+  select(-med_earnings)
+
+movie_data$gross_earning <- as.numeric(movie_data$gross_earning)
+
+```
+<br />
+Now I will double check that the data has no null values.
+<br />
+```{r Null Value Recheck}
+null <- numeric()
+empty <- numeric()
+for (i in 1:length(movie_data)) {
+  
+  null[i] <- sum(is.na(movie_data[i]))
+  empty[i] <- sum(movie_data[i] == "")
+}
+
+colnames(movie_data)
+null
+empty
+```
+<br />
+The data is fully clean, and we are ready for analysis! Right before we do so, we can get rid of the unnecessary variables we used in the cleaning process.
+<br />
+```{r Remove Cleaning Variables}
+rm(empty, i, missing_years,null,median_earnings, median_metascores)
+```
+<br />
+
+# 4. EDA
+<br />
+In this section I will be analyzing the data to identify trends in consumers behaviors. I will also provide recommendations to business strategy based on these analyses. 
+<br />
+
+## 4.1 Year
+<br />
+```{r Year EDA}
+movie_data %>% 
+  group_by(year) %>% 
+  summarize(ttl_count = n(),
+            min_earnings = min(gross_earning),
+            avg_earnings = mean(gross_earning),
+            max_earnings = max(gross_earning),
+            ttl_earnings = sum(gross_earning)
+            )
+```
+```{r Year Distribution}
+movie_data %>% 
+  ggplot(mapping=aes(x=year)) +
+  geom_bar(fill = "red") +
+  theme(axis.text.x = element_text(angle=50,vjust=.5,hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Number of Movies by Year Released",
+       subtitle="Sample of 1,000 Movies Ordered by Age Restrictions",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+
+```
+<br />
+```{r Year Scatter Plot}
+movie_data %>% 
+  ggplot(mapping = aes(x=year,y=gross_earning)) + 
+  geom_point(color = "cyan4") + geom_smooth(color = "red1") + 
+  labs(title="Movie Gross Earnings by Year",
+       subtitle="Sample of 1,000 Movies",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+
+```
+<br />
+We see in that the bar chart is skewed left, meaning that movies made more recently are more likely to be rated in the top 1,000. This could be indicative of a growing popularity for movies made in recent years. This could also indicate that there may be a higher number of movies released compared to previous years, meaning the market is more competitive now than before.  
+
+In the scatter plot, we can also see an upward trend for movie revenues as the years have progressed.This reinforces the idea that movies are becoming more popular as movies made recently are making more money on average.
+
+My business recommendation is that it would be better to create movies sooner rather than later as you can enter the market before competition increases and still capitalize on future movie popularity growth from consumers.
+<br />
+
+## 4.2 Certificate
+<br />
+```{r Certificate Tibble}
+movie_data %>% 
+  group_by(certificate) %>% 
+  summarize(ttl_count = n(),
+            min_earnings = min(gross_earning),
+            avg_earnings = mean(gross_earning),
+            max_earnings = max(gross_earning),
+            ttl_earnings = sum(gross_earning)
+            )
+
+```
+<br />
+```{r Certificate Distribution}
+cert_order <- c("G","U","7","PG","U/A","12+","13","PG-13","15+",
+                "16","UA 16+","18","A","R","(Banned)","Unknown")
+
+movie_data %>% 
+  ggplot(mapping=aes(x=certificate)) +
+  geom_bar(fill = "red") + 
+  labs(title="Number of Certifications",
+       subtitle="Sample of 1,000 Movies Ordered by Age Restrictions",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.") +
+  theme(axis.text.x = element_text(angle=50,vjust=.5,hjust=1)) +
+  scale_x_discrete(limits = cert_order)
+
+```
+<br />
+```{r Certificate Scatter Plot}
+movie_data %>% 
+  ggplot(mapping=aes(x=certificate,y=gross_earning)) +
+  geom_point(mapping = aes(color=gross_earning)) +
+  theme(axis.text.x = element_text(angle=50,vjust=.5,hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Gross Income by Certifications",
+       subtitle="Sample of 1,000 Movies Ordered by Age Restrictions",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")  +
+  scale_x_discrete(limits = cert_order)
+```
+<br />
+Looking at the data, there are some certificates that have very few total counts. It would be best to get more data on those specific categories or to group them using dummy variables, however since the main purpose of this project is not to run regressions it is fine to leave them as is. We see that the movies with the highest average and total gross_earnings are the ones with a "U/A" certification. We also see they have a relatively large count, meaning that there may be a lot of competition for that target audience. 
+
+My business strategy recommendation would be to, although competitive, create movies with the certification of "U", "U/A", or "A". This is because there are a lot of movies available to use as reference when building our movie. These also seem to be the age groups with the best chance to break out and have a highly popular film, as shown with the max earnings. 
+<br />
+
+## 4.3 Genre.1
+<br />
+```{r Genre.1 Tibble}
+movie_data %>% 
+  group_by(genre.1) %>% 
+  summarize(ttl_count = n(),
+            min_earnings = min(gross_earning),
+            avg_earnings = mean(gross_earning),
+            max_earnings = max(gross_earning),
+            ttl_earnings = sum(gross_earning)
+            )
+```
+<br />
+```{r Genre.1 Distribution}
+movie_data %>% 
+  ggplot(mapping=aes(x=genre.1)) +
+  geom_bar(fill = "red") +
+  theme(axis.text.x = element_text(angle=50,vjust=.5,hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Number of Movies by Main Genre",
+       subtitle="Sample of 1,000 Movies Ordered by Age Restrictions",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+
+```{r Genre.1 Scatter Plot}
+movie_data %>% 
+  ggplot(mapping=aes(x=genre.1,y=gross_earning)) +
+  geom_point(mapping = aes(color=gross_earning)) +
+  theme(axis.text.x = element_text(angle=50,vjust=.5,hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Gross Income by Main Genre",
+       subtitle="Sample of 1,000 Movies Ordered by Age Restrictions",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+<br />
+Once again we see the same issue with few data points for certain genres, so more data should be found on those specific genres. Thus I will give analysis both including and not including genres with low counts.
+
+  * Including low count genres: 
+    + We see that the fantasy genre makes the most on average while being a not too competitive market. Meanwhile, the action has the highest total earnings and the highest grossing individual movie but is a competitive market.
+    + Business strategy recommendation would be to create a movie where the main genre is "Fantasy" as it is a high grossing market with low competition. 
+  * Not including low count genres: 
+    + We see that the action genre makes the most on average, has the highest total earnings, and the highest grossing individual movie. It is however still a competitive market. 
+    + Business strategy could either follow their competitors and enter a competitive but high earnings market like "Action", or they could forgo some profits in order to build reputation in a less competitive but still high earning market such as "Animation" or "Adventure". 
+<br />
+
+## 4.4 Genre.2
+<br />
+```{r Genre.2 Tibble}
+movie_data %>% 
+  group_by(genre.2) %>% 
+  summarize(ttl_count = n(),
+            min_earnings = min(gross_earning),
+            avg_earnings = mean(gross_earning),
+            max_earnings = max(gross_earning),
+            ttl_earnings = sum(gross_earning)
+            ) 
+```
+<br />
+```{r Genre.2 Distribution}
+movie_data %>% 
+  ggplot(mapping=aes(x=genre.2)) +
+  geom_bar(fill = "red") +
+  theme(axis.text.x = element_text(angle=50,vjust=.5,hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Number of Movies by Secondary Genre",
+       subtitle="Sample of 1,000 Movies Ordered by Age Restrictions",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+
+```
+<br />
+```{r Genre.2 Scatter Plot}
+movie_data %>% 
+  ggplot(mapping=aes(x=genre.2,y=gross_earning)) +
+  geom_point(mapping = aes(color=gross_earning)) +
+  theme(axis.text.x = element_text(angle=50,vjust=.5,hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Gross Income by Secondary Genre",
+       subtitle="Sample of 1,000 Movies Ordered by Age Restrictions",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+<br />
+In terms of the secondary genre, drama is the most used while adventure has the highest average and total earnings. I also noticed that action, adventure, family, and sci-fi movies made quite a bit more on average compared to other genres. 
+
+My business strategy recommendation would be to pick action, adventure, family, or sci-fi as the secondary genre as these are the highest earning on average. If the goal is securing market share, I would suggest the secondary genre be either action, family, or sci-fi as there is far less competition. If the goal is maximizing gross earnings, I would suggest choosing adventure. It's also important that the secondary genre works well with the main genre. For example, if the main genre is action then adventure or sci-fi may be a better fit to the story than family. 
+<br />
+
+## 4.5 Genre.3
+<br />
+```{r Genre.3 Tibble}
+movie_data %>% 
+  group_by(genre.3) %>% 
+  summarize(ttl_count = n(),
+            min_earnings = min(gross_earning),
+            avg_earnings = mean(gross_earning),
+            max_earnings = max(gross_earning),
+            ttl_earnings = sum(gross_earning)
+            ) 
+```
+<br />
+```{r Genre.3 Distribution}
+movie_data %>% 
+  ggplot(mapping=aes(x=genre.3)) +
+  geom_bar(fill = "red") +
+  theme(axis.text.x = element_text(angle=50,vjust=.5,hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Number of Movies by Secondary Genre",
+       subtitle="Sample of 1,000 Movies Ordered by Age Restrictions",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+<br />
+```{r Genre.3 Scatter Plot}
+movie_data %>% 
+  ggplot(mapping=aes(x=genre.3,y=gross_earning)) +
+  geom_point(mapping = aes(color=gross_earning)) +
+  theme(axis.text.x = element_text(angle=45,vjust=.65, hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Gross Income by Tertiary Genre",
+       subtitle="Sample of 1,000 Movies Ordered by Age Restrictions",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+<br />
+The highest grossing tertiary genres on average are adventure, comedy, fantasy, and sci-fi. Adventure is the least competitive market, while the other three genres seem to be around the same level of competitiveness. There also seems to be a large number of movies that do not have a third genre.
+
+My business recommendation would be to make the third genre either adventure, comedy, fantasy, or sci-fi. All these third genres are significantly higher than the other options while maintaining nearly the same level of market competition. The reason I am not specifically choosing one over the other is because it would be wise to ensure the third genre works well with the main and secondary genres as well. By narrowing it down to 4 options instead of 1 or 2, we maintain some flexibility for the structure of the movie. 
+<br />
+
+## 4.6 IMDB Rating 
+<br />
+```{r IMDB_Rating Tibble}
+movie_data %>% 
+  group_by(imdb_rating) %>% 
+  summarize(ttl_count = n(),
+            min_earnings = min(gross_earning),
+            avg_earnings = mean(gross_earning),
+            max_earnings = max(gross_earning),
+            ttl_earnings = sum(gross_earning)
+            ) 
+```
+<br />
+```{r IMDB_Rating Distribution}
+movie_data %>% 
+  ggplot(mapping=aes(x=imdb_rating)) +
+  geom_bar(fill = "red") +
+  theme(axis.text.x = element_text(angle=50,vjust=.5,hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Number of Movies by IMDB Rating",
+       subtitle="Sample of 1,000 Movies Ordered by IMDB Rating",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+<br />
+```{r IMDB_Rating Scatter Plot}
+movie_data %>% 
+  ggplot(mapping=aes(x=imdb_rating,y=gross_earning)) +
+  geom_point(mapping = aes(color=gross_earning)) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  theme(axis.text.x = element_text(angle=45,vjust=.65, hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Gross Income by IMDB Rating",
+       subtitle="Sample of 1,000 Movies Ordered by IMDB Rating",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+<br />
+As seen from the bar chart's skew to the right, most of the movies are rated between 7.6 and 8.5 on IMDB. More notably, the scores between the range of 7.7 and 8.1 are much more frequent compared to other scores. 
+Looking at the scatter plot, we see a positive correlation between IMDB rating and gross earnings. This means that as the IMDB rating increases, we should expect more earnings.
+
+My business strategy recommendation would be to keep a minimum target rating of 7.7 on IMDB. This way we at the least are matching with most competitors in the market. Targeting a higher score would most likely yield higher gross earnings, but it may also come with higher costs when making the movie. Since this data set does not contain the budgets for each movie, I decided to choose the minimum score to maintain to ensure entering the top 1,000 movies on IMDB. 
+<br />
+
+## 4.7 Metascore
+Due to there being many metascore values, I felt it would be better to put them into groups of 10 and get an idea of a general range to aim for.
+<br />
+```{r Metascore Tibble}
+metascore_grouping <- 
+  movie_data %>% 
+  mutate(metascore_groups = 
+           case_when(metascore <= 40 ~ '0 - 40 metascore',
+                     metascore > 40 & metascore <= 50 ~ '40 - 50 metascore',
+                     metascore > 50 & metascore <= 60 ~ '50 - 60 metascore',
+                     metascore > 60 & metascore <= 70 ~ '60 - 70 metascore',
+                     metascore > 70 & metascore <= 80 ~ '70 - 80 metascore',
+                     metascore > 80 & metascore <= 90 ~ '80 - 90 metascore',
+                     metascore > 90 ~ '90+ metascore')
+         )
+
+metascore_grouping %>% 
+  group_by(metascore_groups) %>% 
+  summarize(ttl_count = n(),
+            min_earnings = min(gross_earning),
+            avg_earnings = mean(gross_earning),
+            max_earnings = max(gross_earning),
+            ttl_earnings = sum(gross_earning)
+            )
+```
+<br />
+```{r Metascore Distribution}
+metascore_grouping %>% 
+  ggplot(mapping=aes(x=metascore_groups)) +
+  geom_bar(fill = "red") +
+  theme(axis.text.x = element_text(angle=50,vjust=.5,hjust=.5)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Number of Movies by Metascore",
+       subtitle="Sample of 1,000 Movies Ordered by Metascore",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+<br />
+```{r Metascore Scatter Plot}
+movie_data %>% 
+  ggplot(mapping=aes(x=metascore,y=gross_earning)) +
+  geom_point(mapping = aes(color=gross_earning)) +
+  geom_smooth(method = "gam", se = FALSE, color = "red") +
+  theme(axis.text.x = element_text(angle=45,vjust=.65, hjust=.5)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Gross Income by Metascore",
+       subtitle="Sample of 1,000 Movies Ordered by Metascore",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+<br />
+```{r Metascore (Grouped) Scatter Plot}
+metascore_grouping %>% 
+  ggplot(mapping=aes(x=metascore_groups,y=gross_earning)) +
+  geom_point(mapping = aes(color=gross_earning)) +
+  geom_smooth(method = "glm", se = FALSE, color = "red") +
+  theme(axis.text.x = element_text(angle=45,vjust=.65, hjust=.5)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Gross Income by Metascore",
+       subtitle="Sample of 1,000 Movies Ordered by Metascore",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+<br />
+From the tibble we see that movies with a metascore between 60-70 have the highest average earnings while being moderately competitive. We also see that the bar chart is skewed left, meaning most of these movies have higher metascores.
+
+For the scatter plot, I want to elaborate on why I used a GAM model instead of a linear model (LM) like in previous graphs.
+
+When using a LM we see that the higher the metascore the lower the gross earnings, even though according to IMDB a higher metascore means a "better" film. Due to this, I thought perhaps there could be outliers in the metascore that skewed the results and tried three more approaches:
+
+* Filtered out metascore values less than 40 as there were very few of them. 
+* Used a GAM model instead of a standard linear regression model to see if there may be a non-linear relationship between metascore and gross_earnings. 
+* Used the metascore grouping like with the bar chart.
+
+The filter approach led to the same results as the linear regression model, but the GAM model yielded a regression that was curved upwards for a short period of time. This curvature proves there indeed is a non-linear relationship between the variables, and that the "sweet spot" for metascore is where the regression transitions from positive to negative.The range this lies between is about 55 and 62. The grouping method seemed to show an upward trend on the scatter plot, but I could not run a regression on it as instead of comparing two numeric data types I was comparing a numeric and a character. I decided to opt for the GAM model. 
+
+My business strategy recommendation is to target a metascore between 60 and 70. According the tibble, this was the range that yielded the highest average earnings. It also is near the inflection point of the GAM model, so even if we do exceed a little bit it shouldn't hinder gross earnings too much.
+<br />
+
+## 4.8 Time
+I will separate the movie times into categories similar to metascore.
+<br />
+```{r Time_Minutes Tibble}
+time_grouping <- 
+  movie_data %>% 
+  mutate(time_groups = 
+           case_when(time_minute <= 60 ~ '0 - 1 hours',
+                     time_minute > 60 & time_minute <= 120 ~ '1 - 2 hours',
+                     time_minute > 120 & time_minute <= 160 ~ '1 - 2 hours',
+                     time_minute > 160 & time_minute <= 240 ~ '2 - 3 hours',
+                     time_minute > 240 ~ '3+ hours')) 
+
+time_grouping %>% 
+  group_by(time_groups) %>% 
+  summarize(ttl_count = n(),
+            min_earnings = min(gross_earning),
+            avg_earnings = mean(gross_earning),
+            max_earnings = max(gross_earning),
+            ttl_earnings = sum(gross_earning)
+            )
+```
+<br />
+```{r Time Distribution}
+time_grouping %>% 
+  ggplot(mapping=aes(x=time_groups)) +
+  geom_bar(fill = "red") +
+  theme(axis.text.x = element_text(angle=50,vjust=.5,hjust=.5)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Gross Income by Time in Minutes",
+       subtitle="Sample of 1,000 Movies Ordered by Time in Minutes",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+< br />
+```{r Time Scatter Plot}
+movie_data %>% 
+  ggplot(mapping=aes(x=time_minute,y=gross_earning)) +
+  geom_point(mapping = aes(color=gross_earning)) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  theme(axis.text.x = element_text(angle=45,vjust=.65, hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Gross Income by Time in Minutes ",
+       subtitle="Sample of 1,000 Movies Ordered by Time in Minutes",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+<br />
+From the tibble we see that movies between the length of 2 and 3 hours make the most on average while also being significantly less competitive than movies between 1 and 2 hours. We also see from the scatter plot that a longer movie time is correlated with higher gross revenues, which reinforces our findings from the tibble. 
+
+My business strategy recommendation would be to make the movie between 2 and 3 hours long as the average earnings are highest and there is moderate competition. 
+<br />
+
+## 4.9 Votes
+Like with metascore and time_minute, I will group the votes. Due to there being a large disparity in the vote values, ranging from 25,000 to 2.5 million, I decided to use quantiles to divide the dataset into equally sized groups.
+<br />
+```{r Votes tibble}
+voting_grouping <- 
+  movie_data %>% 
+  mutate(voting_groups = cut(vote, breaks = quantile(vote, probs = seq(0, 1, by = 0.2)),
+                             include.lowest = TRUE, labels = FALSE)) %>%
+  mutate(voting_groups = case_when(
+    voting_groups == 1 ~ paste0(min(vote), "-", quantile(vote, probs = 0.2)),
+    voting_groups == 2 ~ paste0(quantile(vote, probs = 0.2) + 1, "-", quantile(vote, probs = 0.4)),
+    voting_groups == 3 ~ paste0(quantile(vote, probs = 0.4) + 1, "-", quantile(vote, probs = 0.6)),
+    voting_groups == 4 ~ paste0(quantile(vote, probs = 0.6) + 1, "-", quantile(vote, probs = 0.8)),
+    voting_groups == 5 ~ paste0(quantile(vote, probs = 0.8) + 1, "-", max(vote))
+    )
+  )
+
+voting_grouping %>% 
+  group_by(voting_groups) %>% 
+  summarize(ttl_count = n(),
+            min_earnings = min(gross_earning),
+            avg_earnings = mean(gross_earning),
+            max_earnings = max(gross_earning),
+            ttl_earnings = sum(gross_earning)
+            )
+```
+<br />
+Looking at the results from the tibble, we see that the vote range that gave the highest earnings in every aspect was between 546,058 - 2,714,258. This may indicate that there doesn't necessarily need to be a target for votes, just the more you have the higher earnings on average. I want to test this further, so I will break down that quantile even further.
+< br />
+```{r Votes Tibble Narrowed Further}
+voting_grouping2 <- 
+  movie_data %>% 
+  filter(vote >= 547058.6) %>% 
+  mutate(voting_groups = cut(vote, breaks = quantile(vote, probs = seq(0, 1, by = 0.2)),
+                             include.lowest = TRUE, labels = FALSE)) %>%
+  mutate(voting_groups = case_when(
+    voting_groups == 1 ~ paste0(min(vote), "-", quantile(vote, probs = 0.2)),
+    voting_groups == 2 ~ paste0(quantile(vote, probs = 0.2) + 1, "-", quantile(vote, probs = 0.4)),
+    voting_groups == 3 ~ paste0(quantile(vote, probs = 0.4) + 1, "-", quantile(vote, probs = 0.6)),
+    voting_groups == 4 ~ paste0(quantile(vote, probs = 0.6) + 1, "-", quantile(vote, probs = 0.8)),
+    voting_groups == 5 ~ paste0(quantile(vote, probs = 0.8) + 1, "-", max(vote))
+    )
+  )
+
+voting_grouping2 %>% 
+  group_by(voting_groups) %>% 
+  summarize(ttl_count = n(),
+            min_earnings = min(gross_earning),
+            avg_earnings = mean(gross_earning),
+            max_earnings = max(gross_earning),
+            ttl_earnings = sum(gross_earning)
+            )
+```
+<br />
+Based on these results, we see that every category has higher average and total earnings than it's predecessor. In other words, there isn't a specific target range to aim for in terms of number of votes as the higher the better. This may be because votes could be a good indicator of viewership. We know movies make a large chunk, if not majority, of their earnings from viewership. It also makes sense that movies with higher viewership have more votes. Through these correlations with viewership, it makes sense why votes and gross_earnings have a positive correlation with one another with no specific target range.
+
+Let's visualize this through both a linear model and a GAM model to see if the graph matches our findings in the tibble.
+<br />
+```{r Vote Scatter Plot Linear Model}
+movie_data %>% 
+  ggplot(mapping=aes(x=vote,y=gross_earning)) +
+  geom_point(mapping = aes(color=gross_earning)) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  theme(axis.text.x = element_text(angle=45,vjust=.65, hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Gross Income by Votes",
+       subtitle="Sample of 1,000 Movies Ordered by Number of Votes",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+<br />
+```{r Vote Scatter Plot GAM Model}
+movie_data %>% 
+  ggplot(mapping=aes(x=vote,y=gross_earning)) +
+  geom_point(mapping = aes(color=gross_earning)) +
+  geom_smooth(method = "gam", se = FALSE, color = "red") +
+  theme(axis.text.x = element_text(angle=45,vjust=.65, hjust=1)) +
+  scale_color_gradient(low = "blue",high = "green") + 
+  labs(title="Gross Income by Votes",
+       subtitle="Sample of 1,000 Movies Ordered by Number of Votes",
+       caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
+```
+<br />
+The linear model supports the tibble, and the GAM seems to as well. The GAM does show diminishing earnings as votes increase, but it still seems to be an overall upward trend. Thus, my conclusion for votes is that the higher the better.
+
+My business strategy would be to aim for the highest amount of votes feasible given the budget constraints.
+<br />
+
+# 5. Conclusion
+## 5.1 Business Recommendations
+According to the findings, my recommendations for movie business strategy is the following:
+
+* **Release Year:** 
+  + Newer movies make more on average and the popularity of movies is increasing. It would be wise to make a movie sooner rather than later to capture this growth and capitalize on future audience growth. 
+* **Certification:** 
+  + Create movies with the certification of "U", "U/A", or "A" as these, although competitive, make the most on average. There are also lot of movies available in these categories to use as reference.
+* **Main Genre: [Three potential options]**
+  + Make movie a "Fantasy" as it is highest earning on average with low competitiveness, but data may be skewed due to small amount of observations.
+  + Make movie a "Action" as it is highest earning on average with a lot of data to support it, but is a very competitive market.
+  + Make move a "Animation" or "Adventure" as these are high earning, moderate competition, and has a lot of data to support it.
+* **Secondary Genre:** 
+  + If the goal is securing market share, I would suggest the secondary genre be either "Action", "Family", or "Sci-Fi" as there is far less competition with high earnings. 
+  + If the goal is maximizing gross earnings, I would suggest choosing adventure. 
+  + Make sure secondary genre works well with main genre.
+* **Tertiary Genre:** 
+  + Make the third genre either "Adventure", "Comedy", "Fantasy", or "Sci-Fi". All these genres are significantly higher than the others while maintaining nearly the same level of market competition. Keeping all 4 as options also gives flexibility to ensure the genre works with the main and secondary genres. 
+* **IMDB Rating:** 
+  + Maintain a minimum target of 7.7 on IMDB to match competitors. Could go higher for more earnings, but could also lead to higher costs. 
+* **Metascore:** 
+  + Target a metascore between 60 and 70 as this range yielded the highest average earnings. Metascores higher and lower than this range showed lower earnings on average. 
+* **Movie Run Time:** 
+  + Make the movie between 2 and 3 hours long as the average earnings are highest and there is moderate competition. 
+* **Votes:** 
+  + Aim for the highest amount of votes feasible given the budget constraints. Higher votes correlated with higher gross earnings. 
+<br />
+
+## 5.2 Limitations & Future Works
+There are a few limitations to this analysis:
+
+First, I only did an EDA of the variables individually. I believe some variables could be analyzed together to find different trends that may provide useful insights that were not found in this project. For example, making the fill for year as genre.1 instead of gross_earnings may provide insight as to what movies were most popular per given year. Going further, you could potentially use regression models to better understand the correlations between variables or do an optimization project to find the theoretical ideal movie. 
+
+Another limitation is that there were many data points that were low in observations. Some movies with low counts could have skewed the results, showing much higher gross earnings. An example of this would be fantasy in the main genre, which only had 4 observations. I tried to account for this as best as possible, but there could be some human error.
+
+# 6. Citations
+Data obtained from: SHREYA JAGANI. “imdb movies data”, Version 3. Retrieved 03/19/2023 from https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data. 
