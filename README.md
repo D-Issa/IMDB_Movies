@@ -1,7 +1,7 @@
 # Exploratory Data Analysis on the top 1,000 Movies According to IMDB
 ## Project Overview
 <br />
-This project is an exploratory data analysis on the top 1,000 movies according to IMDB to provide business recommendations to maximize gross earnings. The data was obtained from SHREYA JAGANI. “imdb movies data”, Version 3. Retrieved 03/19/2023 from https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data. and cleaned using R libraries such as Tidyverse and Ggplot2.
+This project is an exploratory data analysis on the top 1,000 movies according to IMDB to provide business recommendations to maximize gross earnings. The data was obtained from SHREYA JAGANI. “imdb movies data”, Version 3. Retrieved 03/19/2023 from https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data and cleaned using R libraries such as Tidyverse and Ggplot2.
 
 ## Dataset Description
 The dataset contains information on the top 1,000 movies according to IMDB. It includes the movie title, release year, certificate rating, main genre, secondary genre, tertiary genre, IMDB rating, Metascore rating, runtime, number of votes, and gross earnings. The data was stored in a CSV file and imported into R for analysis and visualization.
