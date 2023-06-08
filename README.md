@@ -29,7 +29,7 @@ According to the findings, my recommendations for movie business strategy is the
 * **Certification:** 
   * Create movies with the certification of "U", "U/A", or "A" as these, although competitive, make the most on average. There are also a lot of movies available in these categories to use as reference.
   
-    ![Gross Earnings by Certifications](IMDB_Movies_EDA_files/figure-gfm/Certificate_Distribution_1.png)
+![Gross Earnings by Certification](IMDB_Movies_EDA_files/figure-gfm/Certificate_Distribution_1.png)
 <br/>
 * **Main Genre:**
   * There are three potential strategies for choosing the main genre of the movie:
@@ -44,7 +44,7 @@ According to the findings, my recommendations for movie business strategy is the
   * If the goal is maximizing gross earnings, I would suggest choosing adventure. 
   * Ensure that the secondary genre complements the main genre.
 
-    ![Gross Earnings by Secondary Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_2_Scatter_Plot_1.png)
+![Gross Earnings by Secondary Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_2_Scatter_Plot_1.png)
 * **Tertiary Genre:** 
   * Make the third genre either "Adventure", "Comedy", "Fantasy", or "Sci-Fi". All these genres are significantly higher than the others while maintaining nearly the same level of market competition. Keeping all 4 as options also gives flexibility to ensure the genre works with the main and secondary genres. 
 
