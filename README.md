@@ -24,7 +24,7 @@ According to the findings, my recommendations for movie business strategy is the
 * **Release Year:** 
   * Newer movies tend to earn more on average, and the popularity of movies is increasing. It would be wise to make a movie sooner rather than later to capture this growth and capitalize on future audience growth. 
   
-    ![Annual Movie Releases](IMDB_Movies_EDA_files/figure-gfm/Year_Distribution_1.png)
+![Annual Movie Releases](IMDB_Movies_EDA_files/figure-gfm/Year_Distribution_1.png)
 <br/>
 * **Certification:** 
   * Create movies with the certification of "U", "U/A", or "A" as these, although competitive, make the most on average. There are also a lot of movies available in these categories to use as reference.
@@ -37,7 +37,7 @@ According to the findings, my recommendations for movie business strategy is the
     * Make movie an "Action" as it is highest earning on average with a lot of data to support it, but is a very competitive market.
     * Make movie an "Animation" or "Adventure" as these are high earning, moderate competition, and has a lot of data to support it.
   
-    ![Gross Earnings by Main Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_1_Scatter_Plot_1.png)
+![Gross Earnings by Main Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_1_Scatter_Plot_1.png)
 <br>
 * **Secondary Genre:** 
   * If the goal is securing market share, I would suggest the secondary genre be either "Action", "Family", or "Sci-Fi" as there is far less competition with high earnings. 
@@ -48,23 +48,23 @@ According to the findings, my recommendations for movie business strategy is the
 * **Tertiary Genre:** 
   * Make the third genre either "Adventure", "Comedy", "Fantasy", or "Sci-Fi". All these genres are significantly higher than the others while maintaining nearly the same level of market competition. Keeping all 4 as options also gives flexibility to ensure the genre works with the main and secondary genres. 
 
-    ![Gross Earnings by Tertiary Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_3_Scatter_Plot_1.png)
+![Gross Earnings by Tertiary Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_3_Scatter_Plot_1.png)
 * **IMDB Rating:** 
   * Maintain a minimum target of 7.7 on IMDB to match competitors. Ratings could potentially be higher for increased earnings, but this may also result in higher production costs. 
 
-    ![Distribution of IMDB Ratings](IMDB_Movies_EDA_files/figure-gfm/IMDB_Rating_Distribution_1.png)
+![Distribution of IMDB Ratings](IMDB_Movies_EDA_files/figure-gfm/IMDB_Rating_Distribution_1.png)
 * **Metascore:** 
   * Target a metascore between 60 and 70 as this range yielded the highest average earnings. Metascores higher and lower than this range showed lower earnings on average. 
   
-    ![Gross Earnings by Metascore](IMDB_Movies_EDA_files/figure-gfm/Metascore_Grouped_Scatter_Plot_1.png)
+![Gross Earnings by Metascore](IMDB_Movies_EDA_files/figure-gfm/Metascore_Grouped_Scatter_Plot_1.png)
 * **Movie Run Time:** 
   * Make the movie between 2 and 3 hours long as the average earnings are highest and there is moderate competition. 
 
-    ![Gross Income by Movie Runtime](IMDB_Movies_EDA_files/figure-gfm/Time_Scatter_Plot_1.png)
+![Gross Income by Movie Runtime](IMDB_Movies_EDA_files/figure-gfm/Time_Scatter_Plot_1.png)
 * **Votes:** 
   * Aim for the highest amount of votes feasible given the budget constraints. Higher votes correlated with higher gross earnings. 
 
-    ![Gross Earnings by Votes](IMDB_Movies_EDA_files/figure-gfm/Vote_Scatter_Plot_GAM_Model_1.png)
+![Gross Earnings by Votes](IMDB_Movies_EDA_files/figure-gfm/Vote_Scatter_Plot_GAM_Model_1.png)
 ## Limitations and Future Works
 There are a few limitations to this analysis:
 
