@@ -29,14 +29,14 @@ According to the findings, my recommendations for movie business strategy is the
 * **Certification:** 
   * Create movies with the certification of "U", "U/A", or "A" as these, although competitive, make the most on average. There are also lot of movies available in these categories to use as reference.
   
-![Gross Earnings by Certifications](IMDB_Movies_EDA_files/figure-gfm/Certificate_distribution_1.png)
+![Gross Earnings by Certifications](IMDB_Movies_EDA_files/figure-gfm/Certificate_Distribution_1.png)
 <br/>
 * **Main Genre: [Three potential options]**
   * Make movie a "Fantasy" as it is highest earning on average with low competitiveness, but data may be skewed due to small amount of observations.
   * Make movie an "Action" as it is highest earning on average with a lot of data to support it, but is a very competitive market.
   * Make movie an "Animation" or "Adventure" as these are high earning, moderate competition, and has a lot of data to support it.
   
-![Number of Movies Released Per Year](IMDB_Movies_EDA_files/figure-gfm/Year_Distribution_1.png)
+![Gross Earnings by Main Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_1_Scatter_Plot_1.png)
 <br>
 * **Secondary Genre:** 
   * If the goal is securing market share, I would suggest the secondary genre be either "Action", "Family", or "Sci-Fi" as there is far less competition with high earnings. 
@@ -59,11 +59,11 @@ According to the findings, my recommendations for movie business strategy is the
 * **Movie Run Time:** 
   * Make the movie between 2 and 3 hours long as the average earnings are highest and there is moderate competition. 
 
-![Gross Income by Movie Runtime](IMDB_Movies_EDA_files/figure-gfm/.png)
+![Gross Income by Movie Runtime](IMDB_Movies_EDA_files/figure-gfm/Time_Scatter_Plot_1.png)
 * **Votes:** 
   * Aim for the highest amount of votes feasible given the budget constraints. Higher votes correlated with higher gross earnings. 
 
-![Gross Earnings by Votes](IMDB_Movies_EDA_files/figure-gfm/Vote_Scatter_plot_GAM_Model_1.png)
+![Gross Earnings by Votes](IMDB_Movies_EDA_files/figure-gfm/Vote_Scatter_Plot_GAM_Model_1.png)
 ## Limitations and Future Works
 There are a few limitations to this analysis:
 
