@@ -27,7 +27,7 @@ According to the findings, my recommendations for movie business strategy is the
 ![Annual Movie Releases](IMDB_Movies_EDA_files/figure-gfm/Year_Distribution_1.png)
 <br/>
 * **Certification:** 
-  * Create movies with the certification of "U", "U/A", or "A" as these, although competitive, make the most on average. There are also lot of movies available in these categories to use as reference.
+  * Create movies with the certification of "U", "U/A", or "A" as these, although competitive, make the most on average. There are also a lot of movies available in these categories to use as reference.
   
 ![Gross Earnings by Certifications](IMDB_Movies_EDA_files/figure-gfm/Certificate_Distribution_1.png)
 <br/>
