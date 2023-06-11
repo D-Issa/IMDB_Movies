@@ -22,11 +22,15 @@ The exploratory data analysis was performed using R libraries such as Tidyverse 
 According to the findings, my recommendations for movie business strategy is the following:
 
 * **Release Year:** 
-  * Newer movies tend to earn more on average, and the popularity of movies is increasing. It would be wise to make a movie sooner rather than later to capture this growth and capitalize on future audience growth. Below is a graph showing the increasing number of movies realeased per year.
+  * Newer movies tend to earn more on average, and the popularity of movies is increasing. It would be wise to make a movie sooner rather than later to capture this growth and capitalize on future audience growth. 
+
+  Below is a graph showing the increasing number of movies realeased per year.
   
 ![Annual Movie Releases](IMDB_Movies_EDA_files/figure-gfm/Year_Distribution_1.png)
 * **Certification:** 
-  * Create movies with the certification of "U", "U/A", or "A" as these, although competitive, make the most on average. There are also a lot of movies available in these categories to use as reference. Below is a visualization showing the distribution of certifications in the market.
+  * Create movies with the certification of "U", "U/A", or "A" as these, although competitive, make the most on average. There are also a lot of movies available in these categories to use as reference. 
+  
+  Below is a visualization showing the distribution of certifications in the market.
   
 ![Gross Earnings by Certification](IMDB_Movies_EDA_files/figure-gfm/Certificate_Distribution_1.png)
 * **Main Genre:**
@@ -44,6 +48,7 @@ According to the findings, my recommendations for movie business strategy is the
   * Ensure that the secondary genre complements the main genre.
 
   Below is a visualization showing the gross income earned by seconday genre's of movies.
+
 
 ![Gross Earnings by Secondary Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_2_Scatter_Plot_1.png)
 * **Tertiary Genre:** 
@@ -65,11 +70,14 @@ According to the findings, my recommendations for movie business strategy is the
 * **Movie Run Time:** 
   * Make the movie between 2 and 3 hours long as the average earnings are highest and there is moderate competition. 
 
+Below is a visualization showing the relationship between movie length and gross earnings. The longer the movie, the higher the gross earnings.
+
 ![Gross Income by Movie Runtime](IMDB_Movies_EDA_files/figure-gfm/Time_Scatter_Plot_1.png)
 * **Votes:** 
   * Aim for the highest amount of votes feasible given the budget constraints. Higher votes correlated with higher gross earnings. 
 
   Below is a visualization showing the relationship of votes and gross earnings. As shown by the red line, as votes increase so do gross earnings. however, this relationship diminishes as votes increase, meaning that you will get less return on investment at higher amounts of votes.
+  
 ![Gross Earnings by Votes](IMDB_Movies_EDA_files/figure-gfm/Vote_Scatter_Plot_GAM_Model_1.png)
 ## Limitations and Future Works
 There are a few limitations to this analysis:
