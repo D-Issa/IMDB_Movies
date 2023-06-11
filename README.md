@@ -1,6 +1,6 @@
 # Exploratory Data Analysis on the top 1,000 Movies According to IMDB
 ## Project Overview
-This project is an exploratory data analysis on the top 1,000 movies according to IMDB to provide business recommendations to maximize gross earnings. I used R to clean and analyze the data, using libraries such as Tidyverse and Ggplot2. I successfully identified the movie features that resulted in the highest gross earnings. These findings are detailed in the Results and Business Recommendations section.
+This project is an exploratory data analysis on the top 1,000 movies according to IMDB to provide business recommendations to maximize gross earnings. I used R to clean and analyze the data, using libraries such as Tidyverse and Ggplot2. I successfully identified the movie features that resulted in the highest gross earnings, and provided data-driven recommendations for each of these variables in the Results and Business Recommendations section. 
 
 ## Dataset Description
 The raw data was obtained from this [IMDB Kaggle dataset](https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data). The dataset contains information on the top 1,000 movies according to IMDB. This dataset includes the:
@@ -22,35 +22,41 @@ The exploratory data analysis was performed using R libraries such as Tidyverse 
 According to the findings, my recommendations for movie business strategy is the following:
 
 * **Release Year:** 
-  * Newer movies tend to earn more on average, and the popularity of movies is increasing. It would be wise to make a movie sooner rather than later to capture this growth and capitalize on future audience growth. 
+  * Newer movies tend to earn more on average, and the popularity of movies is increasing. It would be wise to make a movie sooner rather than later to capture this growth and capitalize on future audience growth. Below is a graph showing the increasing number of movies realeased per year.
   
 ![Annual Movie Releases](IMDB_Movies_EDA_files/figure-gfm/Year_Distribution_1.png)
 <br/>
 * **Certification:** 
-  * Create movies with the certification of "U", "U/A", or "A" as these, although competitive, make the most on average. There are also a lot of movies available in these categories to use as reference.
+  * Create movies with the certification of "U", "U/A", or "A" as these, although competitive, make the most on average. There are also a lot of movies available in these categories to use as reference. Below is a visualization showing the distribution of certifications in the market.
   
 ![Gross Earnings by Certification](IMDB_Movies_EDA_files/figure-gfm/Certificate_Distribution_1.png)
-<br/>
 * **Main Genre:**
   * There are three potential strategies for choosing the main genre of the movie:
-    *  Make movie a "Fantasy" as it is highest earning on average with low competitiveness, but data may be skewed due to small amount of observations.
+    *  Make movie a "Fantasy" as it is highest earning on average with low competitiveness, but data may be skewed due to small amount of observations (only 4).
     * Make movie an "Action" as it is highest earning on average with a lot of data to support it, but is a very competitive market.
     * Make movie an "Animation" or "Adventure" as these are high earning, moderate competition, and has a lot of data to support it.
   
+  Below is a visualization showing the gross earnings made by genre of movie in millions.
+
 ![Gross Earnings by Main Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_1_Scatter_Plot_1.png)
-<br>
 * **Secondary Genre:** 
   * If the goal is securing market share, I would suggest the secondary genre be either "Action", "Family", or "Sci-Fi" as there is far less competition with high earnings. 
   * If the goal is maximizing gross earnings, I would suggest choosing adventure. 
   * Ensure that the secondary genre complements the main genre.
 
+  Below is a visualization showing the gross income earned by seconday genre's of movies.
+
 ![Gross Earnings by Secondary Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_2_Scatter_Plot_1.png)
 * **Tertiary Genre:** 
   * Make the third genre either "Adventure", "Comedy", "Fantasy", or "Sci-Fi". All these genres are significantly higher than the others while maintaining nearly the same level of market competition. Keeping all 4 as options also gives flexibility to ensure the genre works with the main and secondary genres. 
 
+  Below is a visualization showing the gross income earned by tertiary genre's of movies.
+
 ![Gross Earnings by Tertiary Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_3_Scatter_Plot_1.png)
 * **IMDB Rating:** 
   * Maintain a minimum target of 7.7 on IMDB to match competitors. Ratings could potentially be higher for increased earnings, but this may also result in higher production costs. 
+
+  Below is a visualization showing the distribution of movies IMDB Ratings. As you can see, the majority of the movies have an IMDB rating between 7.7 and 8.2.
 
 ![Distribution of IMDB Ratings](IMDB_Movies_EDA_files/figure-gfm/IMDB_Rating_Distribution_1.png)
 * **Metascore:** 
@@ -64,6 +70,7 @@ According to the findings, my recommendations for movie business strategy is the
 * **Votes:** 
   * Aim for the highest amount of votes feasible given the budget constraints. Higher votes correlated with higher gross earnings. 
 
+  Below is a visualization showing the relationship of votes and gross earnings. As shown by the red line, as votes increase so do gross earnings. however, this relationship diminishes as votes increase, meaning that you will get less return on investment at higher amounts of votes.
 ![Gross Earnings by Votes](IMDB_Movies_EDA_files/figure-gfm/Vote_Scatter_Plot_GAM_Model_1.png)
 ## Limitations and Future Works
 There are a few limitations to this analysis:
