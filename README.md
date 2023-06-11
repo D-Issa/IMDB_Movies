@@ -25,7 +25,6 @@ According to the findings, my recommendations for movie business strategy is the
   * Newer movies tend to earn more on average, and the popularity of movies is increasing. It would be wise to make a movie sooner rather than later to capture this growth and capitalize on future audience growth. Below is a graph showing the increasing number of movies realeased per year.
   
 ![Annual Movie Releases](IMDB_Movies_EDA_files/figure-gfm/Year_Distribution_1.png)
-<br/>
 * **Certification:** 
   * Create movies with the certification of "U", "U/A", or "A" as these, although competitive, make the most on average. There are also a lot of movies available in these categories to use as reference. Below is a visualization showing the distribution of certifications in the market.
   
