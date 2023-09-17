@@ -1,6 +1,18 @@
 # Exploratory Data Analysis on the top 1,000 Movies According to IMDB
 ## Project Overview
-This project is an exploratory data analysis on the top 1,000 movies according to IMDB to provide business recommendations to maximize gross earnings. I used R to clean and analyze the data, using libraries such as Tidyverse and Ggplot2. I successfully identified the movie features that resulted in the highest gross earnings, and provided data-driven recommendations for each of these variables in the Results and Business Recommendations section. 
+This project is an exploratory data analysis on the top 1,000 movies according to IMDB to provide business recommendations to maximize gross earnings and identify market competitiveness. I used R to clean and analyze the data, using libraries such as Tidyverse and Ggplot2. I successfully identified the movie features that resulted in the highest gross earnings and market competition, and provided data-driven recommendations for each of these variables in the Results and Business Recommendations section. For a more in depth analysis, please see that section or the [IMDB_Movies_EDA.md](https://github.com/D-Issa/IMDB_Movies/blob/main/IMDB_Movies_EDA.md) file. 
+
+For a general overview of the results, here are my findings:
+ * Movies are becoming increasingly popular, but also have higher competition. 
+ *	Movies with U, U/A, or A certifications make the most on average.
+ *	Movies with a main genre of Fantasy (low competition) and Action (high competition) make the most on average. Can alternatively choose “Animation” or “Adventure” for a safer pick for moderate earnings and competition.
+ *	Movies with a secondary genre of “Adventure” make the highest gross earnings. Alternatively, can choose “Action”, “Family”, or “Sci-Fi” genres as they are less competitive and still high earnings.
+ *	Movies with a tertiary genre of “Adventure”, “Comedy”, “Fantasy”, or “Sci-Fi” are equally high earning and competitive, so keeping all 4 as an option gives flexibility to match main and secondary genres better.
+ *	The majority of movies that rank in the top 1,000 have an IMDB rating between 7.7 and 8.2, so that should be the rating target goal. 
+ *	Movies with a Metascore between 60 and 70 showed the highest average earnings. Going above or below this range resulted in lower earnings on average.
+ *	Movies with a run time between 2 and 3 hours long resulted in the highest gross earnings.
+ *	The more votes, aka number of users that rated the movie on IMDB, a movie has the more the gross earnings, but this diminishes over time. A good target range is getting between 1 million and 2 million total votes on the movie.  
+
 
 ## Dataset Description
 The raw data was obtained from this [IMDB Kaggle dataset](https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data). The dataset contains information on the top 1,000 movies according to IMDB. This dataset includes the:
