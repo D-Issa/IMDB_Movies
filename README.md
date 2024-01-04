@@ -1,6 +1,6 @@
 # From Reel to Real: The Analytics of 1,000 Top-Tier Movies
 ## Project Overview
-This project is an exploratory data analysis on the top 1,000 movies according to IMDB to provide business recommendations to maximize gross earnings and identify market competitiveness. I used R to clean and analyze the data, using libraries such as Tidyverse and Ggplot2. I successfully identified the movie features that resulted in the highest gross earnings and market competition, and provided data-driven recommendations for each of these variables in the Results and Business Recommendations section. For a more in depth analysis, please see that section or the [IMDB_Movies_EDA.md](https://github.com/D-Issa/IMDB_Movies/blob/main/IMDB_Movies_EDA.md) file. 
+This project is an exploratory data analysis on the top 1,000 movies according to IMDB to provide business recommendations to maximize gross earnings and identify market competitiveness. I used R to clean and analyze the data, using libraries such as Tidyverse and Ggplot2. I successfully identified the movie features that resulted in the highest gross earnings and market competition, and provided data-driven recommendations for each of these variables in the Results and Business Recommendations section. For a more in depth analysis, please see that section or the [Movies_EDA.md](https://github.com/D-Issa/IMDB_Movies/blob/main/Movies_EDA.md) file. 
 
 For a general overview of the results, here are my findings:
  * Movies are becoming increasingly popular, but also have higher competition. 
