@@ -66,6 +66,8 @@ According to the findings, my recommendations for movie business strategy is the
 * **Metascore:** 
   * Target a metascore between 60 and 70 as this range yielded the highest average earnings. Metascores higher and lower than this range showed lower earnings on average. 
   
+  Below is a visualization showing the gross earnings by metascore. 
+
 ![Gross Earnings by Metascore](IMDB_Movies_EDA_files/figure-gfm/Metascore_Grouped_Scatter_Plot_1.png)
 * **Movie Run Time:** 
   * Make the movie between 2 and 3 hours long as the average earnings are highest and there is moderate competition. 
