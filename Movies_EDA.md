@@ -1,4 +1,4 @@
-IMDB_Movies_EDA
+Movies_EDA
 ================
 Dillon Issa
 2023-03-19
@@ -384,7 +384,7 @@ movie_data %>%
        caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
 ```
 
-![](IMDB_Movies_EDA_files/figure-gfm/Year%20Distribution-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Year%20Distribution-1.png)<!-- -->
 <br />
 
 ``` r
@@ -398,7 +398,7 @@ movie_data %>%
 
     ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 
-![](IMDB_Movies_EDA_files/figure-gfm/Year%20Scatter%20Plot-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Year%20Scatter%20Plot-1.png)<!-- -->
 <br /> We see in that the bar chart is skewed left, meaning that movies
 made more recently are more likely to be rated in the top 1,000. This
 could be indicative of a growing popularity for movies made in recent
@@ -467,7 +467,7 @@ movie_data %>%
   scale_x_discrete(limits = cert_order)
 ```
 
-![](IMDB_Movies_EDA_files/figure-gfm/Certificate%20Distribution-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Certificate%20Distribution-1.png)<!-- -->
 <br />
 
 ``` r
@@ -482,7 +482,7 @@ movie_data %>%
   scale_x_discrete(limits = cert_order)
 ```
 
-![](IMDB_Movies_EDA_files/figure-gfm/Certificate%20Scatter%20Plot-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Certificate%20Scatter%20Plot-1.png)<!-- -->
 <br /> Looking at the data, there are some certificates that have very
 few total counts. It would be best to get more data on those specific
 categories or to group them using dummy variables, however since the
@@ -545,7 +545,7 @@ movie_data %>%
        caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
 ```
 
-![](IMDB_Movies_EDA_files/figure-gfm/Genre.1%20Distribution-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Genre.1%20Distribution-1.png)<!-- -->
 
 ``` r
 movie_data %>% 
@@ -558,7 +558,7 @@ movie_data %>%
        caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
 ```
 
-![](IMDB_Movies_EDA_files/figure-gfm/Genre.1%20Scatter%20Plot-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Genre.1%20Scatter%20Plot-1.png)<!-- -->
 <br /> Once again we see the same issue with few data points for certain
 genres, so more data should be found on those specific genres. Thus I
 will give analysis both including and not including genres with low
@@ -625,7 +625,7 @@ movie_data %>%
        caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
 ```
 
-![](IMDB_Movies_EDA_files/figure-gfm/Genre.2%20Distribution-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Genre.2%20Distribution-1.png)<!-- -->
 <br />
 
 ``` r
@@ -639,7 +639,7 @@ movie_data %>%
        caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
 ```
 
-![](IMDB_Movies_EDA_files/figure-gfm/Genre.2%20Scatter%20Plot-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Genre.2%20Scatter%20Plot-1.png)<!-- -->
 <br /> In terms of the secondary genre, drama is the most used while
 adventure has the highest average and total earnings. I also noticed
 that action, adventure, family, and sci-fi movies made quite a bit more
@@ -707,7 +707,7 @@ movie_data %>%
        caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
 ```
 
-![](IMDB_Movies_EDA_files/figure-gfm/Genre.3%20Distribution-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Genre.3%20Distribution-1.png)<!-- -->
 <br />
 
 ``` r
@@ -721,7 +721,7 @@ movie_data %>%
        caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
 ```
 
-![](IMDB_Movies_EDA_files/figure-gfm/Genre.3%20Scatter%20Plot-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Genre.3%20Scatter%20Plot-1.png)<!-- -->
 <br /> The highest grossing tertiary genres on average are adventure,
 comedy, fantasy, and sci-fi. Adventure is the least competitive market,
 while the other three genres seem to be around the same level of
@@ -786,7 +786,7 @@ movie_data %>%
        caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
 ```
 
-![](IMDB_Movies_EDA_files/figure-gfm/IMDB_Rating%20Distribution-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/IMDB_Rating%20Distribution-1.png)<!-- -->
 <br />
 
 ``` r
@@ -803,7 +803,7 @@ movie_data %>%
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](IMDB_Movies_EDA_files/figure-gfm/IMDB_Rating%20Scatter%20Plot-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/IMDB_Rating%20Scatter%20Plot-1.png)<!-- -->
 <br /> As seen from the bar chart’s skew to the right, most of the
 movies are rated between 7.6 and 8.5 on IMDB. More notably, the scores
 between the range of 7.7 and 8.1 are much more frequent compared to
@@ -873,7 +873,7 @@ metascore_grouping %>%
        caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
 ```
 
-![](IMDB_Movies_EDA_files/figure-gfm/Metascore%20Distribution-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Metascore%20Distribution-1.png)<!-- -->
 <br />
 
 ``` r
@@ -890,7 +890,7 @@ movie_data %>%
 
     ## `geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'
 
-![](IMDB_Movies_EDA_files/figure-gfm/Metascore%20Scatter%20Plot-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Metascore%20Scatter%20Plot-1.png)<!-- -->
 <br />
 
 ``` r
@@ -907,7 +907,7 @@ metascore_grouping %>%
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](IMDB_Movies_EDA_files/figure-gfm/Metascore%20(Grouped)%20Scatter%20Plot-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Metascore%20(Grouped)%20Scatter%20Plot-1.png)<!-- -->
 <br /> From the tibble we see that movies with a metascore between 60-70
 have the highest average earnings while being moderately competitive. We
 also see that the bar chart is skewed left, meaning most of these movies
@@ -991,7 +991,7 @@ time_grouping %>%
        caption="Data Obtained From: https://www.kaggle.com/datasets/shreyajagani13/imdb-movies-data.")
 ```
 
-![](IMDB_Movies_EDA_files/figure-gfm/Time%20Distribution-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Time%20Distribution-1.png)<!-- -->
 \< br /\>
 
 ``` r
@@ -1008,7 +1008,7 @@ movie_data %>%
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](IMDB_Movies_EDA_files/figure-gfm/Time%20Scatter%20Plot-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Time%20Scatter%20Plot-1.png)<!-- -->
 <br /> From the tibble we see that movies between the length of 2 and 3
 hours make the most on average while also being significantly less
 competitive than movies between 1 and 2 hours. We also see from the
@@ -1130,7 +1130,7 @@ movie_data %>%
 
     ## `geom_smooth()` using formula = 'y ~ x'
 
-![](IMDB_Movies_EDA_files/figure-gfm/Vote%20Scatter%20Plot%20Linear%20Model-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Vote%20Scatter%20Plot%20Linear%20Model-1.png)<!-- -->
 <br />
 
 ``` r
@@ -1147,7 +1147,7 @@ movie_data %>%
 
     ## `geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'
 
-![](IMDB_Movies_EDA_files/figure-gfm/Vote%20Scatter%20Plot%20GAM%20Model-1.png)<!-- -->
+![](Movies_EDA_files/figure-gfm/Vote%20Scatter%20Plot%20GAM%20Model-1.png)<!-- -->
 <br /> The linear model supports the tibble, and the GAM seems to as
 well. The GAM does show diminishing earnings as votes increase, but it
 still seems to be an overall upward trend. Thus, my conclusion for votes

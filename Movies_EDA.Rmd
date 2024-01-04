@@ -1,5 +1,5 @@
 ---
-title: "IMDB_Movies_EDA"
+title: "Movies_EDA"
 author: "Dillon Issa"
 date: '2023-03-19'
 output: github_document
