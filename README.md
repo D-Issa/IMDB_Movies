@@ -1,4 +1,4 @@
-# Exploratory Data Analysis on the top 1,000 Movies According to IMDB
+# From Reel to Real: The Analytics of 1,000 Top-Tier Movies
 ## Project Overview
 This project is an exploratory data analysis on the top 1,000 movies according to IMDB to provide business recommendations to maximize gross earnings and identify market competitiveness. I used R to clean and analyze the data, using libraries such as Tidyverse and Ggplot2. I successfully identified the movie features that resulted in the highest gross earnings and market competition, and provided data-driven recommendations for each of these variables in the Results and Business Recommendations section. For a more in depth analysis, please see that section or the [IMDB_Movies_EDA.md](https://github.com/D-Issa/IMDB_Movies/blob/main/IMDB_Movies_EDA.md) file. 
 
@@ -38,13 +38,13 @@ According to the findings, my recommendations for movie business strategy is the
 
   Below is a graph showing the increasing number of movies realeased per year.
   
-![Annual Movie Releases](IMDB_Movies_EDA_files/figure-gfm/Year_Distribution_1.png)
+![Annual Movie Releases](Movies_EDA_files/figure-gfm/Year_Distribution_1.png)
 * **Certification:** 
   * Create movies with the certification of "U", "U/A", or "A" as these, although competitive, make the most on average. There are also a lot of movies available in these categories to use as reference. 
   
   Below is a visualization showing the distribution of certifications in the market.
   
-![Gross Earnings by Certification](IMDB_Movies_EDA_files/figure-gfm/Certificate_Distribution_1.png)
+![Gross Earnings by Certification](Movies_EDA_files/figure-gfm/Certificate_Distribution_1.png)
 * **Main Genre:**
   * There are three potential strategies for choosing the main genre of the movie:
     *  Make movie a "Fantasy" as it is highest earning on average with low competitiveness, but data may be skewed due to small amount of observations (only 4).
@@ -53,7 +53,7 @@ According to the findings, my recommendations for movie business strategy is the
   
   Below is a visualization showing the gross earnings made by genre of movie in millions.
 
-![Gross Earnings by Main Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_1_Scatter_Plot_1.png)
+![Gross Earnings by Main Genre](Movies_EDA_files/figure-gfm/Genre_1_Scatter_Plot_1.png)
 * **Secondary Genre:** 
   * If the goal is securing market share, I would suggest the secondary genre be either "Action", "Family", or "Sci-Fi" as there is far less competition with high earnings. 
   * If the goal is maximizing gross earnings, I would suggest choosing adventure. 
@@ -62,37 +62,37 @@ According to the findings, my recommendations for movie business strategy is the
   Below is a visualization showing the gross income earned by seconday genre's of movies.
 
 
-![Gross Earnings by Secondary Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_2_Scatter_Plot_1.png)
+![Gross Earnings by Secondary Genre](Movies_EDA_files/figure-gfm/Genre_2_Scatter_Plot_1.png)
 * **Tertiary Genre:** 
   * Make the third genre either "Adventure", "Comedy", "Fantasy", or "Sci-Fi". All these genres are significantly higher than the others while maintaining nearly the same level of market competition. Keeping all 4 as options also gives flexibility to ensure the genre works with the main and secondary genres. 
 
   Below is a visualization showing the gross income earned by tertiary genre's of movies.
 
-![Gross Earnings by Tertiary Genre](IMDB_Movies_EDA_files/figure-gfm/Genre_3_Scatter_Plot_1.png)
+![Gross Earnings by Tertiary Genre](Movies_EDA_files/figure-gfm/Genre_3_Scatter_Plot_1.png)
 * **IMDB Rating:** 
   * Maintain a minimum target of 7.7 on IMDB to match competitors. Ratings could potentially be higher for increased earnings, but this may also result in higher production costs. 
 
   Below is a visualization showing the distribution of movies IMDB Ratings. As you can see, the majority of the movies have an IMDB rating between 7.7 and 8.2.
 
-![Distribution of IMDB Ratings](IMDB_Movies_EDA_files/figure-gfm/IMDB_Rating_Distribution_1.png)
+![Distribution of IMDB Ratings](Movies_EDA_files/figure-gfm/IMDB_Rating_Distribution_1.png)
 * **Metascore:** 
   * Target a metascore between 60 and 70 as this range yielded the highest average earnings. Metascores higher and lower than this range showed lower earnings on average. 
   
   Below is a visualization showing the gross earnings by metascore. 
 
-![Gross Earnings by Metascore](IMDB_Movies_EDA_files/figure-gfm/Metascore_Grouped_Scatter_Plot_1.png)
+![Gross Earnings by Metascore](Movies_EDA_files/figure-gfm/Metascore_Grouped_Scatter_Plot_1.png)
 * **Movie Run Time:** 
   * Make the movie between 2 and 3 hours long as the average earnings are highest and there is moderate competition. 
 
 Below is a visualization showing the relationship between movie length and gross earnings. The longer the movie, the higher the gross earnings.
 
-![Gross Income by Movie Runtime](IMDB_Movies_EDA_files/figure-gfm/Time_Scatter_Plot_1.png)
+![Gross Income by Movie Runtime](Movies_EDA_files/figure-gfm/Time_Scatter_Plot_1.png)
 * **Votes:** 
   * Aim for the highest amount of votes feasible given the budget constraints. Higher votes correlated with higher gross earnings. 
 
   Below is a visualization showing the relationship of votes and gross earnings. As shown by the red line, as votes increase so do gross earnings. however, this relationship diminishes as votes increase, meaning that you will get less return on investment at higher amounts of votes.
   
-![Gross Earnings by Votes](IMDB_Movies_EDA_files/figure-gfm/Vote_Scatter_Plot_GAM_Model_1.png)
+![Gross Earnings by Votes](Movies_EDA_files/figure-gfm/Vote_Scatter_Plot_GAM_Model_1.png)
 ## Limitations and Future Works
 There are a few limitations to this analysis:
 
